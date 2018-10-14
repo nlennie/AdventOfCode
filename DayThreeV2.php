@@ -1,8 +1,34 @@
 <?php
 
 $elfInstructions = readCharactersToArray("DayThreeFull.txt");
-$listOfUniqueCoordinates = getUniqueCoordinatesVisited([0,0], $elfInstructions);
-echo count($listOfUniqueCoordinates);
+
+#$listOfUniqueCoordinates = getUniqueCoordinatesVisited([0,0], $elfInstructions);
+#echo count($listOfUniqueCoordinates);
+
+$santaInstructions = getInstructionsWithEvenIndex($elfInstructions);
+
+$robotInstructions = getInstructionsWithOddIndex($elfInstructions);
+
+
+$santasListOfUniqueCoordinates = getUniqueCoordinatesVisited([0,0], $santaInstructions);
+
+echo count($santasListOfUniqueCoordinates);
+echo "    ";
+$robotsListOfUniqueCoordinates = getUniqueCoordinatesVisited([0,0], $robotInstructions);
+echo count($robotsListOfUniqueCoordinates);
+echo "    ";
+
+$fullListOfCoordinates = $santasListOfUniqueCoordinates;
+
+for ($i=0; $i<count($robotsListOfUniqueCoordinates); $i++){
+    if (!in_array($robotsListOfUniqueCoordinates[$i], $fullListOfCoordinates)){
+        $fullListOfCoordinates[] = $robotsListOfUniqueCoordinates[$i];
+    }
+}
+
+echo count($fullListOfCoordinates);
+echo "    ";
+
 
 function readCharactersToArray($fileName){
     $fileHandle = fopen($fileName, "r");
@@ -44,9 +70,26 @@ function getUniqueCoordinatesVisited($startingPoint, $instructionsArray){
     for ($i=0; $i<count($instructionsArray); $i++){
         $nextCoordinate = getNextCoordinate($currentCoordinate, getDirectionVector($instructionsArray, $i));
         if (!in_array($nextCoordinate, $uniqueCoordinatesVisited)){
-            $route[] = $nextCoordinate;
-            $currentCoordinate = $nextCoordinate;
+            $uniqueCoordinatesVisited[] = $nextCoordinate;
         }
+        $currentCoordinate = $nextCoordinate;
     }
     return $uniqueCoordinatesVisited;
 }
+
+function getInstructionsWithEvenIndex($arrayToSplit){
+    $instructions = [];
+    for ($i=0; $i<count($arrayToSplit); $i+=2){
+        $instructions[] = $arrayToSplit[$i];
+    }
+    return $instructions;
+}
+
+function getInstructionsWithOddIndex($arrayToSplit){
+    $instructions = [];
+    for ($i=1; $i<count($arrayToSplit); $i+=2){
+        $instructions[] = $arrayToSplit[$i];
+    }
+    return $instructions;
+}
+
