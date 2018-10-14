@@ -4,7 +4,7 @@ $elfInstructions = [];
 $coordinatesVisited = [[0,0]];
 $currentCoordinate = [0,0];
 
-$fileHandle = fopen("DayThree.txt", "r");
+$fileHandle = fopen("DayThreeFull.txt", "r");
 
 while (!feof($fileHandle)) {
     $nextInstruction = fgetc($fileHandle);
@@ -12,15 +12,8 @@ while (!feof($fileHandle)) {
 }
 fclose($fileHandle);
 
-/*
-$elfInstructions = trim(file_get_contents("DayThree.txt"));
-$elfInstructions = explode("", $elfInstructions);
-*/
-
-
-function getDirectionVector($array, $index)
+function getDirectionVector($character)
 {
-    $character = $array[$index];
     if ($character == "<") {
         return [-1, 0];
     }
@@ -38,7 +31,7 @@ function getDirectionVector($array, $index)
 
 for ($i = 0; $i < count($elfInstructions)-1; $i++) {
 
-    $directionTravelled = getDirectionVector($elfInstructions, $i);
+    $directionTravelled = getDirectionVector($elfInstructions[$i]);
 
     $nextXCoordinate = $currentCoordinate[0]+$directionTravelled[0];
     $nextYCoordinate = $currentCoordinate[1]+$directionTravelled[1];
@@ -46,16 +39,12 @@ for ($i = 0; $i < count($elfInstructions)-1; $i++) {
 
     $currentCoordinate = [$nextXCoordinate, $nextYCoordinate];
 
-    print_r($nextCoordinate);
+    #print_r($nextCoordinate);
 
-    if (!in_array($coordinatesVisited, $nextCoordinate)){
+    if (!in_array($nextCoordinate, $coordinatesVisited)){
         $coordinatesVisited[] = $nextCoordinate;
     }
 
-}
-
-for ($i = 0; $i < count($coordinatesVisited); $i++){
-    print_r($coordinatesVisited[$i]);
 }
 
 echo count($coordinatesVisited);
