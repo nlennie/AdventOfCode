@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__ . "/Traveller.php";
+require_once __DIR__ . "/Coordinator.php";
+require_once __DIR__ . "/CoordinateManifest.php";
 
 $fileHandle = fopen("DayThreeFull.txt", "r");
 $instructions = [];
@@ -16,7 +19,9 @@ $coordinator = new Coordinator($santa, $robot);
 
 $coordinator -> coordinate($instructions);
 
+$santasLocations = $santa -> getLocationsVisited();
+$robotsLocations = $robot -> getLocationsVisited();
 
-$manifest = new CoordinateManifest($santa -> $locationsVisited, $robot -> $locationsVisited);
+$manifest = new CoordinateManifest($santasLocations, $robotsLocations);
 
-echo count($manifest);
+echo count($manifest -> getUniqueCoordinates());

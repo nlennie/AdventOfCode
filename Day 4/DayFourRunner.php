@@ -18,7 +18,7 @@ echo $keyNumber;
 
 function checkFiveLeadingZeroes($key){
     $hash = MD5($key);
-    if(substr($hash, 0, 5)==="00000"){
+    if(substr($hash, 0, 6)==="000000"){
         return true;
     }
     return false;

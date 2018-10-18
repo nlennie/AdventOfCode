@@ -4,16 +4,18 @@ $allStrings = [];
 $niceStrings = [];
 $naughtyStrings = [];
 
-$fileHandle = fopen("DayFour.txt", "r");
+$fileHandle = fopen("DayFive.txt", "r");
 while (!feof($fileHandle)) {
-    $nextString = fget($fileHandle);
+    $nextString = fgets($fileHandle);
     $allStrings[] = $nextString;
 }
 fclose($fileHandle);
 
-for ($allStrings as $aString){
+echo count($allStrings);
+
+foreach ($allStrings as $aString){
     if(hasAtLeastThreeVowels($aString) && hasDoubleLetter($aString) && !containsForbiddenSubstring($aString)){
-        $niceStrings[] = $aString;
+    $niceStrings[] = $aString;
     }
     else{
         $naughtyStrings[] = $aString;
@@ -37,7 +39,7 @@ function hasAtLeastThreeVowels($text){
 
 function hasDoubleLetter($text){
     for ($i=1; $i<strlen($text); $i++){
-        if($text[$i-1] = $text[$i]){
+        if($text[$i-1] === $text[$i]){
             return true;
         }
     }

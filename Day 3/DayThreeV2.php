@@ -6,31 +6,20 @@ $elfInstructions = readCharactersToArray("DayThreeFull.txt");
 #echo count($listOfUniqueCoordinates);
 
 $santaInstructions = getInstructionsWithEvenIndex($elfInstructions);
-
 $robotInstructions = getInstructionsWithOddIndex($elfInstructions);
 
-
-$santasListOfUniqueCoordinates = getUniqueCoordinatesVisited([0,0], $santaInstructions);
-
-echo count($santasListOfUniqueCoordinates);
-echo "    ";
-$robotsListOfUniqueCoordinates = getUniqueCoordinatesVisited([0,0], $robotInstructions);
-echo count($robotsListOfUniqueCoordinates);
-echo "    ";
-
+$santasListOfUniqueCoordinates = getUniqueCoordinatesVisited([0, 0], $santaInstructions);
+$robotsListOfUniqueCoordinates = getUniqueCoordinatesVisited([0, 0], $robotInstructions);
 $fullListOfCoordinates = $santasListOfUniqueCoordinates;
 
-for ($i=0; $i<count($robotsListOfUniqueCoordinates); $i++){
-    if (!in_array($robotsListOfUniqueCoordinates[$i], $fullListOfCoordinates)){
+for ($i = 0; $i < count($robotsListOfUniqueCoordinates); $i++) {
+    if (!in_array($robotsListOfUniqueCoordinates[$i], $fullListOfCoordinates)) {
         $fullListOfCoordinates[] = $robotsListOfUniqueCoordinates[$i];
     }
 }
 
-echo count($fullListOfCoordinates);
-echo "    ";
-
-
-function readCharactersToArray($fileName){
+function readCharactersToArray($fileName)
+{
     $fileHandle = fopen($fileName, "r");
     $instructions = [];
     while (!feof($fileHandle)) {
@@ -46,30 +35,29 @@ function getDirectionVector($array, $index)
     $character = $array[$index];
     if ($character == "<") {
         return [-1, 0];
-    }
-    elseif ($character == ">") {
+    } elseif ($character == ">") {
         return [1, 0];
-    }
-    elseif ($character == "^") {
+    } elseif ($character == "^") {
         return [0, 1];
-    }
-    elseif ($character == "v"){
+    } elseif ($character == "v") {
         return [0, -1];
     }
     return [0, 0];
 }
 
-function getNextCoordinate($currentCoordinate, $directionVector){
-    $nextCoordinate = [$currentCoordinate[0]+$directionVector[0], $currentCoordinate[1]+$directionVector[1]];
+function getNextCoordinate($currentCoordinate, $directionVector)
+{
+    $nextCoordinate = [$currentCoordinate[0] + $directionVector[0], $currentCoordinate[1] + $directionVector[1]];
     return $nextCoordinate;
 }
 
-function getUniqueCoordinatesVisited($startingPoint, $instructionsArray){
+function getUniqueCoordinatesVisited($startingPoint, $instructionsArray)
+{
     $uniqueCoordinatesVisited = [[$startingPoint]];
     $currentCoordinate = $startingPoint;
-    for ($i=0; $i<count($instructionsArray); $i++){
+    for ($i = 0; $i < count($instructionsArray); $i++) {
         $nextCoordinate = getNextCoordinate($currentCoordinate, getDirectionVector($instructionsArray, $i));
-        if (!in_array($nextCoordinate, $uniqueCoordinatesVisited)){
+        if (!in_array($nextCoordinate, $uniqueCoordinatesVisited)) {
             $uniqueCoordinatesVisited[] = $nextCoordinate;
         }
         $currentCoordinate = $nextCoordinate;
@@ -77,17 +65,19 @@ function getUniqueCoordinatesVisited($startingPoint, $instructionsArray){
     return $uniqueCoordinatesVisited;
 }
 
-function getInstructionsWithEvenIndex($arrayToSplit){
+function getInstructionsWithEvenIndex($arrayToSplit)
+{
     $instructions = [];
-    for ($i=0; $i<count($arrayToSplit); $i+=2){
+    for ($i = 0; $i < count($arrayToSplit); $i += 2) {
         $instructions[] = $arrayToSplit[$i];
     }
     return $instructions;
 }
 
-function getInstructionsWithOddIndex($arrayToSplit){
+function getInstructionsWithOddIndex($arrayToSplit)
+{
     $instructions = [];
-    for ($i=1; $i<count($arrayToSplit); $i+=2){
+    for ($i = 1; $i < count($arrayToSplit); $i += 2) {
         $instructions[] = $arrayToSplit[$i];
     }
     return $instructions;
