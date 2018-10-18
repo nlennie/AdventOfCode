@@ -2,7 +2,6 @@
 
 class LightController
 {
-
     private $lights;
 
     public function __construct()
@@ -36,13 +35,16 @@ class LightController
             for ($j = $instruction["startYCoordinate"]; $j <= $instruction["endYCoordinate"]; $j++) {
                 switch ($instruction["action"]) {
                     case "on":
-                        $this->lights[$i][$j] = 1;
+                        $this->lights[$i][$j] += 1;
                         break;
                     case "off":
-                        $this->lights[$i][$j] = 0;
+                        $this->lights[$i][$j] -= 1;
+                        if ($this->lights[$i][$j] < 0){
+                            $this->lights[$i][$j] = 0;
+                        }
                         break;
                     case "toggle":
-                        $this->lights[$i][$j] = ($this->lights[$i][$j] == 0) ? 1 : 0;
+                        $this->lights[$i][$j] += 2;
                         break;
                 }
             }
