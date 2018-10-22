@@ -1,18 +1,19 @@
 <?php
 
-
 class FileReader
 {
-    public function readFile($fileName)
-    {
+    public function readInstructions($fileName){
         $fileHandle = fopen($fileName, "r");
         $instructions = [];
 
-        while (!feof($fileHandle)) {
+        while (!feof($fileHandle))
+        {
             $nextInstruction = fgets($fileHandle);
             $instructions[] = $nextInstruction;
         }
+
         fclose($fileHandle);
+
         return $instructions;
     }
 }

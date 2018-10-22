@@ -2,23 +2,22 @@
 
 class InstructionParser
 {
-    public function parseAllInstructions($instructionsToParse){
-        $parsedInstructions = [];
-        foreach ($instructionsToParse as $instruction){
-            $parsedInstructions[] = $this->parseInstruction($instruction);
-        }
-        return $parsedInstructions;
+    private $explodedInstructions = [];
+
+    public function getExplodedInstructions(){
+        return $this->explodedInstructions;
     }
 
-    private function parseInstruction($instructionToParse)
+    public function parseAllInstructions($instructionsToParse){
+        foreach($instructionsToParse as $instruction){
+            $this->explodedInstructions[] = $this->separateInstructionsAndDestinations($instruction);
+        }
+    }
+
+    private function separateInstructionsAndDestinations($instructionToParse)
     {
-        preg_match_all("/(\w+\s+)(\d+),(\d+) through (\d+),(\d+)/", $instructionToParse, $matches);
-        return [
-            "action" => trim($matches[1][0]),
-            "startXCoordinate" => $matches[2][0],
-            "endXCoordinate" => $matches[4][0],
-            "startYCoordinate" => $matches[3][0],
-            "endYCoordinate" => $matches[5][0]
-        ];
+        $instructionDirection = explode(" -> ", $instructionToParse);
+        $instructionDirection[0] = explode(" ", $instructionDirection[0]);
+        return $instructionDirection;
     }
 }
